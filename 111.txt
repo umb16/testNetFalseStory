@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<players xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <dict>
+    <player>
+      <networkPlayer />
+      <password>кенкен</password>
+      <login>543645</login>
+    </player>
+    <player>
+      <networkPlayer />
+      <password>11111</password>
+      <login>1111</login>
+    </player>
+    <player>
+      <networkPlayer />
+      <password>1111</password>
+      <login>1111</login>
+    </player>
+    <player>
+      <networkPlayer />
+      <password>1</password>
+      <login>1</login>
+    </player>
+  </dict>
+</players>
