@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <players xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <dict>
-    <player>
+  <onlineList>
+    <c_player>
       <networkPlayer />
-      <password>кенкен</password>
-      <login>543645</login>
-    </player>
-    <player>
-      <networkPlayer />
-      <password>11111</password>
-      <login>1111</login>
-    </player>
-    <player>
-      <networkPlayer />
-      <password>1111</password>
-      <login>1111</login>
-    </player>
-    <player>
-      <networkPlayer />
+      <exp>0</exp>
+      <winRatio>0</winRatio>
       <password>1</password>
       <login>1</login>
-    </player>
+    </c_player>
+    <c_player>
+      <networkPlayer />
+      <exp>0</exp>
+      <winRatio>0</winRatio>
+      <password>1</password>
+      <login>Mark</login>
+    </c_player>
+  </onlineList>
+  <dict>
+    <c_player>
+      <networkPlayer />
+      <exp>0</exp>
+      <winRatio>0</winRatio>
+      <password>1</password>
+      <login>1</login>
+    </c_player>
+    <c_player>
+      <networkPlayer />
+      <exp>0</exp>
+      <winRatio>0</winRatio>
+      <password>1</password>
+      <login>Mark</login>
+    </c_player>
+    <c_player>
+      <networkPlayer />
+      <exp>0</exp>
+      <winRatio>0</winRatio>
+      <password>1</password>
+      <login>uuure</login>
+    </c_player>
   </dict>
 </players>
