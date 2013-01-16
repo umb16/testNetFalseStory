@@ -44,9 +44,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\NetWork.cs" />
-     <Compile Include="Assets\client.cs" />
-     <Compile Include="Assets\constants.cs" />
+     <Compile Include="Assets\Scripts\both\constants.cs" />
+     <Compile Include="Assets\Scripts\both\serialize.cs" />
+     <Compile Include="Assets\Scripts\client\client.cs" />
+     <Compile Include="Assets\Scripts\server\server.cs" />
+     <Compile Include="Assets\Scripts\test\c_animtest.cs" />
+     <None Include="Assets\Resources\SpartanKing\animations.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
