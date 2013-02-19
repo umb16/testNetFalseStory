@@ -44,11 +44,26 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\both\constants.cs" />
-     <Compile Include="Assets\Scripts\both\serialize.cs" />
-     <Compile Include="Assets\Scripts\client\client.cs" />
-     <Compile Include="Assets\Scripts\server\server.cs" />
+     <Compile Include="Assets\Scripts\both\Constants.cs" />
+     <Compile Include="Assets\Scripts\both\Serialize.cs" />
+     <Compile Include="Assets\Scripts\both\Users.cs" />
+     <Compile Include="Assets\Scripts\client\Client.cs" />
+     <Compile Include="Assets\Scripts\client\InfoWindow.cs" />
+     <Compile Include="Assets\Scripts\client\LoginOkWindow.cs" />
+     <Compile Include="Assets\Scripts\client\LoginWindow.cs" />
+     <Compile Include="Assets\Scripts\client\OptionsWindow.cs" />
+     <Compile Include="Assets\Scripts\client\RegistrWindow.cs" />
      <Compile Include="Assets\Scripts\test\c_animtest.cs" />
+     <Compile Include="Assets\Scripts\utils\Converter.cs" />
+     <Compile Include="Assets\Scripts\utils\Debug.cs" />
+     <Compile Include="Assets\Scripts\utils\Fps.cs" />
+     <Compile Include="Assets\Scripts\utils\Localisation.cs" />
+     <Compile Include="Assets\Scripts\utils\MiniJSON.cs" />
+     <Compile Include="Assets\Scripts\utils\MouseOrbit.cs" />
+     <Compile Include="Assets\Scripts\utils\PushString.cs" />
+     <Compile Include="Assets\Scripts\utils\c_sprite.cs" />
+     <None Include="Assets\Resources\unitext.txt" />
+     <None Include="Assets\Shaders\SimpleSimpleAlpha.shader" />
      <None Include="Assets\Resources\SpartanKing\animations.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\test\c_animtest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\client\Client.cs">
     <Files>
-      <File FileName="Assets\Scripts\test\c_animtest.cs" Line="8" Column="2" />
-      <File FileName="Assets\Scripts\client\client.cs" Line="117" Column="83" />
-      <File FileName="Assets\Scripts\server\server.cs" Line="24" Column="18" />
-      <File FileName="Assets\Scripts\both\constants.cs" Line="3" Column="32" />
-      <File FileName="Assets\Scripts\both\serialize.cs" Line="50" Column="12" />
+      <File FileName="Assets\Scripts\client\Client.cs" Line="114" Column="22" />
+      <File FileName="Assets\Scripts\client\LoginOkWindow.cs" Line="21" Column="15" />
+      <File FileName="Assets\Scripts\both\Constants.cs" Line="4" Column="4" />
+      <File FileName="Assets\Scripts\client\LoginWindow.cs" Line="10" Column="3" />
+      <File FileName="Assets\Scripts\client\InfoWindow.cs" Line="15" Column="49" />
+      <File FileName="Assets\Scripts\client\OptionsWindow.cs" Line="11" Column="98" />
+      <File FileName="Assets\Scripts\client\RegistrWindow.cs" Line="22" Column="1" />
+      <File FileName="Assets\Scripts\both\Users.cs" Line="25" Column="56" />
+      <File FileName="Assets\Scripts\utils\PushString.cs" Line="35" Column="54" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

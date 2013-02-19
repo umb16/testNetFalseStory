@@ -1,182 +1,132 @@
 using UnityEngine;
 using System.Collections;
 
-public class client : MonoBehaviour
+public class Client : MonoBehaviour
 {
+	float checkRate=2;
+	float timer;
+	public static string login="";
+	public static string password="";
+	public static string IPAddress="127.0.0.1:25565";
+	public static Users onlineUsers = new Users();
+	string loginCode;
+	int status;
 	
-	public GameObject battle;
+	IEnumerator SendRequest (string request)
+	{
+		WWW www = new WWW (string.Format("http://{0}/",IPAddress) + request);
+		yield return www;
+		Receiver (www.text);
+	}
+
+	void Receiver (string response)
+	{
+		string tempString;
+		Debug.Log (response);
+		
+		status = PushString.GetInt ("status", response);
+		if (status == 0)
+			return;
+		if((tempString=PushString.GetString ("onlineList", response))!=null)
+		{
+			onlineUsers = (Users) Serialize.Deserialization(onlineUsers, tempString);
+		}
+		if (response.Contains ("[loginCode:")) {
+			loginCode = PushString.GetString ("loginCode", response);
+		}
+		
+	}
 	
-	int loginstatus = constants.zero;
-	string login = "";
-	string password = "";
-	server.c_clientsOnlineList onlinePlayersList = new server.c_clientsOnlineList();
-	//int[] onlinePlayersIdList;
-	int battleId=-1;
-	string stringMsg="";
-	int order=0;
-	server.c_player clientPlayer = new server.c_player();
-	NetworkPlayer clientNetPlayer;
-	
-	// Use this for initialization
 	void Start ()
 	{
-	
-	}
-
-	[RPC]
-	void clientLogin (NetworkPlayer player)
-	{
-		print ("connect to server succes");
-		Debug.Log ("Player " + player.ToString () + " connected from " + player.ipAddress + ":" + player.port);
-		clientNetPlayer=player;
-		networkView.RPC ("serverLogin", RPCMode.Server, player, login, password);
-	}
-
-	[RPC]
-	void loginEnd (int loginCode)
-	{
-		loginstatus = loginCode;
-		print ("loginEnd"+loginstatus);
-	}
-	[RPC]
-	void takePlayerInfo(bool self,string playerInfo)
-	{
-		if(self)
-		{
-			clientPlayer = (server.c_player) serialize.deserialization(clientPlayer,playerInfo);
-			
-		}
-	}
-	
-	[RPC]
-	void takeInvite(int tbattleId,string inviter,int torder)
-	{
-		if(loginstatus!=constants.waitingForReply)
-		{
-			order=torder;
-			battleId=tbattleId;
-			loginstatus= constants.inviteToGame;
-			stringMsg=inviter+" invite you to play";
-		}
-	}
-	
-	[RPC]
-	void takeOnlineList(string o)
-	{
-		onlinePlayersList=(server.c_clientsOnlineList)serialize.deserialization(onlinePlayersList,o);
-	}
-
-	[RPC]
-	void receiver(int type, string o)
-	{
-		if(type == constants.redy)
-		{
-			loginstatus=constants.redy;
-			battle.SetActive(true);
-		}
+		//StartCoroutine(SendRequest(PushString.SetTag("login")+ PushString.SetValue("login","Mark")+PushString.SetValue("password","123321")));
 	}
 	
 	void OnGUI ()
 	{
-		//print(loginstatus);
-		GUI.color = Color.black;
-		if (!Network.isServer && loginstatus==constants.zero) {
-			GUI.Label (new Rect (Screen.width / 2 - 70, Screen.height / 3.8f, 140, 25), "Login:");
-			login = GUI.TextField (new Rect (Screen.width / 2 - 70, Screen.height / 3, 140, 25), login, 20);
-			GUI.Label (new Rect (Screen.width / 2 - 70, Screen.height / 2.3f, 140, 25), "Password:");
-			password = GUI.PasswordField (new Rect (Screen.width / 2 - 70, Screen.height / 2f, 140, 25), password, '*', 20);
-			if (GUI.Button (new Rect (Screen.width / 2 - 50, Screen.height / 1.5f, 100, 30), "login")) {
-				if (password != "" && login != "")
-					preLoginFunc ();
+		GUI.enabled = true;
+		if (status == 0) {
+			loginCode = null;
+			if (GUI.Button (new Rect (10, 10, 100, 25), "Options")) {
+				status = Constants.optionsMenu;
 			}
-		}
-		if (loginstatus == constants.logining) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "CONNECTING");
-		}
-		if (loginstatus == constants.errorPassword) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "Password error");
-		}
-		if (loginstatus == constants.connectionError) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "Connection error");
-		}
-		if (loginstatus == constants.loginNotFound) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "Account is created");
-		}
-		if (loginstatus == constants.dobleLogining) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "DOBLE LOGINING");
-		}
-		if (loginstatus == constants.disconnectedFromSrver) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "Diconnected from the server");
-		}
-		if (loginstatus == constants.waitingForReply) {
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), "WAITING OPPONENT");
-		}
-		if (loginstatus == constants.inviteToGame) {
-			if (GUI.Button (new Rect (Screen.width / 2 - 50, Screen.height / 1.5f, 100, 30), "OK")) {
-				loginstatus= constants.waitingForReply;
-				networkView.RPC ("battleReceiver",RPCMode.Server,battleId,order,constants.redy);
+			if (GUI.Button (new Rect (Screen.width-110, 10, 100, 25), "Registr")) {
+				status = Constants.registrMenu;
 			}
-			GUI.Label (new Rect (Screen.width / 2 - 100, Screen.height / 2, 200, 100), stringMsg);
-		}
-		if (loginstatus == constants.disconnectedFromSrver||loginstatus == constants.errorPassword||loginstatus == constants.connectionError||loginstatus == constants.loginNotFound||loginstatus == constants.dobleLogining) 
-		if (GUI.Button (new Rect (Screen.width / 2 - 50, Screen.height / 1.5f, 100, 30), "OK")) {
-			Network.Disconnect();
-				loginstatus= constants.zero;
-			}
-		if (loginstatus == constants.ok) {
-			GUI.Label (new Rect (10, 10, 200, 25), login);
-		if (onlinePlayersList != null)
-				GUI.Label (new Rect (Screen.width*.5f-50, 10, 100, 25), "Players online:");
-			for (int i=0; i< onlinePlayersList.list.Count; i++) {
-				if( onlinePlayersList.list[i].login!=login)
-				if (GUI.Button (new Rect (Screen.width*.15f, 100 + i * 22, Screen.width/1.5f, 20), onlinePlayersList.list[i].login)) {
-					//Network.Connect("213.222.243.25",25565);
-					//waitingPlayer=onlinePlayersIdList[i];
-					networkView.RPC ("sendInvite", RPCMode.Server, onlinePlayersList.list[i].id, clientPlayer.id);
-					loginstatus= constants.waitingForReply;
-					order=0;
+			if (LoginWindow.Draw ()) {
+				status = Constants.logining;
+				StartCoroutine (SendRequest (PushString.SetTag ("login") + PushString.SetValue ("login", login) + PushString.SetValue ("password", password)));
+			
 				}
-			}
-			if (GUI.Button (new Rect (Screen.width / 2 - 50, Screen.height / 1.5f, 100, 30), "LOGOUT")) {
-			Network.Disconnect();
-				loginstatus= constants.zero;
-			}
 		}
-	}
-
-	void preLoginFunc ()
-	{
-		Network.Connect ("213.222.243.25", 25565);
-		loginstatus = constants.logining;
 		
-	}
-
-	void OnConnectedToServer ()
-	{
-		Debug.Log ("Connected to server");
-	}
-	
-	void OnDisconnectedFromServer(NetworkDisconnection info) {
-        if (Network.isServer)
-            Debug.Log("Local server connection disconnected");
-        else
-            if (info == NetworkDisconnection.LostConnection)
-                Debug.Log("Lost connection to the server");
-            else
-		{
-				loginstatus = constants.disconnectedFromSrver;
-                Debug.Log("Successfully diconnected from the server");
+		if (status == Constants.doubleLogining) {
+			if (InfoWindow.Draw ("Double logining")) {
+				status = 0;
+			}
 		}
-    }
-	
-	void OnFailedToConnect (NetworkConnectionError error)
-	{
-		loginstatus = constants.connectionError;
-		Debug.Log ("Could not connect to server: " + error);
+		
+		if (status == Constants.loginNotFound || status == Constants.incorrectPassword) {
+			if (InfoWindow.Draw ("Login not found or incorrect password")) {
+				status = 0;
+			}
+		}
+		
+		if (status == Constants.logining) {
+			InfoWindow.DrawNoButton ("Logining...");
+		}
+		
+		if(status == Constants.optionsMenu)
+		{
+			if(OptionsWindow.Draw())
+			{
+				status = 0;
+			}
+		}
+		
+		if (status == Constants.registrMenu) {
+			if (RegistrWindow.Draw ()) {
+				status = Constants.logining;
+				StartCoroutine (SendRequest (PushString.SetTag ("registr") + PushString.SetValue ("login", login) + PushString.SetValue ("password", password)));
+			}
+		}
+		
+		if(status == Constants.accountCreateSuccess)
+		{
+			if (InfoWindow.Draw ("Account created"))
+			{
+				status = 0;
+			}
+		}
+		
+		if(status == Constants.loginOccupied)
+		{
+			if (InfoWindow.Draw ("Login occupied"))
+			{
+				status = 0;
+			}
+		}
+		
+		if (status == Constants.loginOk) {
+			if(LoginOKWindow.Draw())
+			{
+				status = Constants.logining;
+				loginCode = null;
+				StartCoroutine (SendRequest (PushString.SetTag ("logout") + PushString.SetValue ("loginCode", loginCode)));
+			}
+		}
 	}
-	// Update is called once per frame
+	
 	void Update ()
 	{
-	
+		if(loginCode!=null)
+		{
+			timer+=Time.deltaTime;
+			if(timer>=checkRate)
+			{
+				timer=0;
+				StartCoroutine (SendRequest (PushString.SetTag ("check") + PushString.SetValue ("loginCode", loginCode)));
+			}
+		}
 	}
 }

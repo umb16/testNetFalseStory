@@ -3,10 +3,10 @@ using System.Collections;
 using System.IO;
 using System.Xml.Serialization;
 
-public class serialize : MonoBehaviour {
+public class Serialize : MonoBehaviour {
 
 	// Use this for initialization
-	public static string serialization(object o)
+	public static string Serialization(object o)
 	{
 		string text="";
 		TextWriter writer;
@@ -18,7 +18,7 @@ public class serialize : MonoBehaviour {
 		return text;
 	}
 	
-	public static object deserialization(object o,string xml_text)
+	public static object Deserialization(object o,string xml_text)
 	{
 		TextReader reader;
 		XmlSerializer serialRead = new XmlSerializer (o.GetType());
@@ -28,7 +28,7 @@ public class serialize : MonoBehaviour {
 		return o;
 	}
 	
-	public static object deserialization (string path ,object o)
+	public static object Deserialization (string path ,object o)
 	{
 		//players level = new players ();
 		XmlSerializer preferences = new XmlSerializer (o.GetType());
@@ -39,7 +39,7 @@ public class serialize : MonoBehaviour {
 			else
 				reader = new FileStream (Application.persistentDataPath + "/" + path, FileMode.Open, FileAccess.Read);
 		} catch (System.Exception ex) {
-			serialization (path, o);
+			Serialization (path, o);
 			if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsPlayer)
 				reader = new FileStream (path, FileMode.Open, FileAccess.Read);
 			else
@@ -50,7 +50,7 @@ public class serialize : MonoBehaviour {
 		return o;
 	}
 	
-	public static void serialization ( string path, object o)
+	public static void Serialization ( string path, object o)
 	{
 		Stream writer;
 		XmlSerializer serialWrite = new XmlSerializer (o.GetType());
